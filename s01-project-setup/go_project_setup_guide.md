@@ -15,8 +15,15 @@ mise use go@latest
 ```
 _______________________________________________________________________________
 
-### Initialize the project
+### Add this to the end of `mise.toml`
 
+```toml
+[env]
+BINARY_NAME = "go-project"
+```
+_______________________________________________________________________________
+
+### Initialize the project
 _______________________________________________________________________________
 
 There are two ways of doing this:
@@ -92,13 +99,17 @@ mise tasks
 
 You should see an output like this
 ```
-
+Name    Description
+build   👷 Build the project
+clean   🧼 Delete the 'bin' directory
+dev     🚀 Run the project
+runbin  🤖 Run the binary in the 'bin' directory
 ```
 _______________________________________________________________________________
 
 ### To run the program without creating an executable binary
 ```bash
-go run .
+mise dev
 ```
 _______________________________________________________________________________
 
@@ -112,7 +123,7 @@ _______________________________________________________________________________
 ### Run the binary executable
 
 ```bash
-./bin/go-project
+mise runbin
 ```
 _______________________________________________________________________________
 
