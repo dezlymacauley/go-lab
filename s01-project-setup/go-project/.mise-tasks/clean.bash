@@ -8,5 +8,5 @@ if [ ! -d bin ]; then
     exit 0
 fi
 
-rm -rf build
+rm -rf bin
 printf "\n%s\n\n" '✅ The bin directory has been deleted'

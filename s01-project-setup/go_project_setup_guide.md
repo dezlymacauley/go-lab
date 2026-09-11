@@ -107,6 +107,63 @@ runbin  🤖 Run the binary in the 'bin' directory
 ```
 _______________________________________________________________________________
 
+Add this to the `.mise-tasks/build.bash` file
+```bash
+#!/usr/bin/env bash
+
+#MISE description="👷 Build the project"
+#MISE quiet=true
+
+# Check if there were any error messages in the build output
+if ! build_output_messages=$(go build -o bin/go-project 2>&1); then
+    printf "\n%s\n\n" '❌ Failed to build project'
+    printf "%s\n" "$build_output_messages"
+    exit 1
+fi
+
+printf "\n%s\n\n" '✅ Project built'
+```
+_______________________________________________________________________________
+
+Add this to the `.mise-tasks/clean.bash` file
+```bash
+#!/usr/bin/env bash
+
+#MISE description="🧼 Delete the 'bin' directory"
+#MISE quiet=true
+
+if [ ! -d bin ]; then
+    printf "\n%s\n\n" '✅ No bin directory found'
+    exit 0
+fi
+
+rm -rf build
+printf "\n%s\n\n" '✅ The bin directory has been deleted'
+```
+_______________________________________________________________________________
+
+Add this to the `.mise-tasks/dev.bash` file
+```bash
+#!/usr/bin/env bash
+
+#MISE description="🚀 Run the project"
+#MISE quiet=true
+
+go run .
+```
+_______________________________________________________________________________
+
+Add this to the `.mise-tasks/runbin.bash` file
+```bash
+#!/usr/bin/env bash
+
+#MISE description="🤖 Run the binary in the 'bin' directory"
+#MISE quiet=true
+
+"./bin/${BINARY_NAME}"
+```
+_______________________________________________________________________________
+
 ### To run the program without creating an executable binary
 ```bash
 mise dev
