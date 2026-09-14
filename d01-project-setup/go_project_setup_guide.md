@@ -63,7 +63,7 @@ _______________________________________________________________________________
 02. Method 2 (Quick setup):
 
 ```
-go mod init project-name
+go mod init go-project
 ```
 
 - Use this method when you are creating a project that you have 
@@ -81,7 +81,9 @@ _______________________________________________________________________________
 ### Create the rest of the project structure
 
 ```bash
-touch .gitignore main.go
+touch .gitignore 
+mkdir -p cmd/go-project
+touch cmd/go-project/main.go
 
 mkdir .mise-tasks
 touch .mise-tasks/build.bash 
@@ -99,7 +101,7 @@ Add this to the `.gitignore` file
 ```
 _______________________________________________________________________________
 
-Add this to the `main.go` file
+Add this to the `cmd/go-project/main.go` file
 ```go
 package main
 
@@ -120,7 +122,12 @@ Add this to the `.mise-tasks/build.bash` file
 #MISE description="👷 Build the project | alias = build"
 #MISE quiet=true
 
-if ! build_output_messages=$(go build -o "bin/${BINARY_NAME}" 2>&1); then
+if ! build_output_messages=$(
+    go build \
+        -o "bin/${BINARY_NAME}" \
+        "./cmd/${BINARY_NAME}" \
+        2>&1
+); then
     printf "\n%s\n\n" '❌ Failed to build project'
     printf "%s\n" "$build_output_messages"
     exit 1
@@ -154,7 +161,7 @@ Add this to the `.mise-tasks/dev.bash` file
 #MISE description="🚀 Run the project | alias = dev"
 #MISE quiet=true
 
-go run .
+go run "./cmd/${BINARY_NAME}"
 ```
 _______________________________________________________________________________
 
@@ -165,7 +172,12 @@ Add this to the `.mise-tasks/run-bin.bash` file
 #MISE description="🤖 Build and run the binary | alias = run-bin"
 #MISE quiet=true
 
-if ! build_output_messages=$(go build -o "bin/${BINARY_NAME}" 2>&1); then
+if ! build_output_messages=$(
+    go build \
+        -o "bin/${BINARY_NAME}" \
+        "./cmd/${BINARY_NAME}" \
+        2>&1
+); then
     printf "\n%s\n\n" '❌ Failed to build project'
     printf "%s\n" "$build_output_messages"
     exit 1
@@ -184,9 +196,9 @@ mise tasks
 You should see an output like this:
 ```
 Name     Description
-build    👷 Build the project
-clean    🧼 Delete the 'bin' directory
-dev      🚀 Run the project
-run-bin  🤖 Run the binary in the 'bin' directory
+build    👷 Build the project | alias = build
+clean    🧼 Delete the 'bin' directory | alias = clean
+dev      🚀 Run the project | alias = dev
+run-bin  🤖 Build and run the binary | alias = run-bin
 ```
 _______________________________________________________________________________

@@ -3,4 +3,4 @@
 #MISE description="🚀 Run the project | alias = dev"
 #MISE quiet=true
 
-go run .
+go run "./cmd/${BINARY_NAME}"
