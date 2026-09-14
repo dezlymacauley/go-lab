@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#MISE description="🧼 Delete the 'bin' directory"
+#MISE description="🧼 Delete the 'bin' directory | alias = clean"
 #MISE quiet=true
 
 if [ ! -d bin ]; then

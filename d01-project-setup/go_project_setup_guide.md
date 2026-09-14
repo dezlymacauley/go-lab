@@ -15,6 +15,35 @@ mise use go@latest
 ```
 _______________________________________________________________________________
 
+### Add the this to the end of `mise.toml`
+
+```toml
+[env]
+BINARY_NAME = "go-project"
+
+[shell_alias]
+build = "mise build"
+clean = "mise clean"
+dev = "mise dev"
+run-bin = "mise run-bin"
+```
+
+The full file should look like this
+```toml
+[tools]
+go = "latest"
+
+[env]
+BINARY_NAME = "go-project"
+
+[shell_alias]
+build = "mise build"
+clean = "mise clean"
+dev = "mise dev"
+run-bin = "mise run-bin"
+```
+_______________________________________________________________________________
+
 ### Initialize the project
 _______________________________________________________________________________
 
@@ -88,17 +117,16 @@ Add this to the `.mise-tasks/build.bash` file
 ```bash
 #!/usr/bin/env bash
 
-#MISE description="👷 Build the project"
+#MISE description="👷 Build the project | alias = build"
 #MISE quiet=true
 
-# Check if there were any error messages in the build output
-if ! build_output_messages=$(go build -o bin/go-project 2>&1); then
+if ! build_output_messages=$(go build -o "bin/${BINARY_NAME}" 2>&1); then
     printf "\n%s\n\n" '❌ Failed to build project'
     printf "%s\n" "$build_output_messages"
     exit 1
 fi
 
-printf "\n%s\n\n" '✅ Project built'
+printf "\n%s\n\n" "✅ Project built: bin/${BINARY_NAME}"
 ```
 _______________________________________________________________________________
 
@@ -106,7 +134,7 @@ Add this to the `.mise-tasks/clean.bash` file
 ```bash
 #!/usr/bin/env bash
 
-#MISE description="🧼 Delete the 'bin' directory"
+#MISE description="🧼 Delete the 'bin' directory | alias = clean"
 #MISE quiet=true
 
 if [ ! -d bin ]; then
@@ -123,7 +151,7 @@ Add this to the `.mise-tasks/dev.bash` file
 ```bash
 #!/usr/bin/env bash
 
-#MISE description="🚀 Run the project"
+#MISE description="🚀 Run the project | alias = dev"
 #MISE quiet=true
 
 go run .
@@ -134,31 +162,16 @@ Add this to the `.mise-tasks/run-bin.bash` file
 ```bash
 #!/usr/bin/env bash
 
-#MISE description="🤖 Run the binary in the 'bin' directory"
+#MISE description="🤖 Build and run the binary | alias = run-bin"
 #MISE quiet=true
 
-# Check if there were any error messages in the build output
-if ! build_output_messages=$(go build -o bin/go-project 2>&1); then
+if ! build_output_messages=$(go build -o "bin/${BINARY_NAME}" 2>&1); then
     printf "\n%s\n\n" '❌ Failed to build project'
     printf "%s\n" "$build_output_messages"
     exit 1
 fi
 
-"./bin/go-project"
-```
-_______________________________________________________________________________
-
-### Add the shell aliases to the end of `mise.toml`
-
-```toml
-[tools]
-go = "latest"
-
-[shell_alias]
-build = "mise build"
-clean = "mise clean"
-dev = "mise dev"
-run-bin = "mise run-bin"
+"./bin/${BINARY_NAME}"
 ```
 _______________________________________________________________________________
 

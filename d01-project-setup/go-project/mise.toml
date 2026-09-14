@@ -1,6 +1,9 @@
 [tools]
 go = "latest"
 
+[env]
+BINARY_NAME = "go-project"
+
 [shell_alias]
 build = "mise build"
 clean = "mise clean"
