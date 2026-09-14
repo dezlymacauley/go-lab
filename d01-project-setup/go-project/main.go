@@ -3,5 +3,7 @@ package main
 import "fmt"
 
 func main() {
-    fmt.Println("\nGo Project\n")
+    fmt.Println()
+    fmt.Println("Go Project")
+    fmt.Println()
 }
