@@ -4,6 +4,6 @@ import "fmt"
 
 func main() {
     fmt.Println()
-	fmt.Println("This is f01_charlie.go")
+	fmt.Println("This is f02-bravo.go")
     fmt.Println()
 }
