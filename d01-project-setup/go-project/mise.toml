@@ -1,11 +1,80 @@
-[tools]
-go = "latest"
-
 [env]
 BINARY_NAME = "go-project"
+#______________________________________________________________________________
+
+[tools]
+eza = "latest"
+go = "latest"
+#______________________________________________________________________________
+
+[tasks.build]
+description = "👷 Build the project | alias = build"
+quiet = true
+run = """
+
+go build -o "bin/${BINARY_NAME}" "./cmd/${BINARY_NAME}"
+
+"""
+
+#______________________________________________________________________________
+
+[tasks.clean]
+description = "🧼 Delete build output and cache | alias = clean"
+quiet = true
+run = """
+
+rm -rf bin
+go clean -cache
+"""
+#______________________________________________________________________________
+
+[tasks.format]
+description = "📜 Run the code formatter on the project | alias = format"
+quiet = true
+run = """
+
+gofmt -w .
+
+"""
+#______________________________________________________________________________
+
+[tasks.run-bin]
+description = "🤖 Build and run the binary | alias = run-bin"
+depends = ["build"]
+quiet = true
+run = """
+
+"./bin/${BINARY_NAME}"
+
+"""
+#______________________________________________________________________________
+
+[tasks.setup]
+description = "🚀 Setup the project | alias = setup"
+quiet = true
+run = """
+
+go mod tidy
+
+"""
+#______________________________________________________________________________
+
+[tasks.structure]
+description = "🌲 View the project structure | alias = structure"
+quiet = true
+run = """
+
+eza --tree --git-ignore
+
+"""
+#______________________________________________________________________________
 
 [shell_alias]
-build = "mise build"
-clean = "mise clean"
-dev = "mise dev"
-run-bin = "mise run-bin"
+build = "mise run build"
+clean = "mise run clean"
+format = "mise run format"
+run = "go run ./cmd/go-project"
+run-bin = "mise run run-bin"
+setup = "mise run setup"
+structure = "mise run structure"
+#______________________________________________________________________________
