@@ -1,5 +1,0 @@
-[tools]
-go = "latest"
-
-[shell_alias]
-clean = "mise clean"
