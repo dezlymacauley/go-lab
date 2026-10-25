@@ -1,0 +1,93 @@
+[tools]
+eza = "latest"
+go = "latest"
+#______________________________________________________________________________
+
+[tasks.build]
+description = "👷 Build the current program | alias = build"
+quiet = true
+run = """
+
+set -e
+name=$(basename "$MISE_ORIGINAL_CWD")
+
+if [ ! -d "programs/${name}/cmd/${name}" ]; then
+    printf "\n%s\n\n" "❌ Not inside a program. cd into a program first"
+    exit 1
+fi
+
+mkdir -p bin
+go build -o "bin/${name}" "./programs/${name}/cmd/${name}"
+printf "\n%s\n\n" "✅ Built: bin/${name}"
+
+"""
+#______________________________________________________________________________
+
+[tasks.clean]
+description = "🧼 Delete build output and cache | alias = clean"
+quiet = true
+run = """
+
+rm -rf bin
+go clean -cache
+
+"""
+#______________________________________________________________________________
+
+[tasks.format]
+description = "📜 Run the code formatter on the workspace | alias = format"
+quiet = true
+run = """
+
+gofmt -w .
+
+"""
+#______________________________________________________________________________
+
+[tasks.run-bin]
+description = "🤖 Build and run the current program's binary | alias = run-bin"
+depends = ["build"]
+quiet = true
+run = """
+
+"./bin/$(basename "$MISE_ORIGINAL_CWD")"
+
+"""
+#______________________________________________________________________________
+
+[tasks.setup]
+description = "🚀 Tidy the dependencies of every program | alias = setup"
+quiet = true
+run = """
+
+set -e
+
+for dir in programs/*/; do
+    [ -f "${dir}go.mod" ] || continue
+    (cd "$dir" && go mod tidy)
+done
+
+printf "\n%s\n\n" "✅ Dependencies are ready"
+
+"""
+#______________________________________________________________________________
+
+[tasks.structure]
+description = "🌲 View the project structure | alias = structure"
+quiet = true
+run = """
+
+eza --tree --git-ignore
+
+"""
+#______________________________________________________________________________
+
+[shell_alias]
+build = "mise run build"
+clean = "mise run clean"
+format = "mise run format"
+run = "go run ./cmd/*"
+run-bin = "mise run run-bin"
+setup = "mise run setup"
+structure = "mise run structure"
+#______________________________________________________________________________
